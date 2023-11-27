@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - geometry - cube</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        
+		<style>#container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }</style>
+            
+	</head>
+	<body>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "./three.module.js"				
+                }
+            }
+        </script>
+
+        <script type="module">
+            //<link type="text/css" rel="stylesheet" href="main.css">
+//<button onclick="animate()">Click me</button>
+            import * as THREE from 'three';
+
+            let camera, scene, renderer;
+            let mesh;
+
+            init();
+            //animate();
+
+            function init() {
+
+                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 100 );
+                camera.position.z = 2;
+
+                scene = new THREE.Scene();
+
+                const texture = new THREE.TextureLoader().load( 'textures/crate.gif' );
+                texture.colorSpace = THREE.SRGBColorSpace;
+
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshBasicMaterial();
+
+                mesh = new THREE.Mesh( geometry, material );
+                scene.add( mesh );
+
+                renderer = new THREE.WebGLRenderer( { antialias: true } );
+                renderer.setPixelRatio( window.devicePixelRatio );
+                //renderer.setSize( window.innerWidth, window.innerHeight );
+                renderer.setSize( window.innerWidth*0.2, window.innerHeight*0.2 );
+                var container = document.getElementById("container");
+                container.appendChild(renderer.domElement);
+
+                //document.body.appendChild( renderer.domElement );
+
+                //
+
+                window.addEventListener( 'resize', onWindowResize );
+
+            }
+
+            function onWindowResize() {
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize( window.innerWidth*0.2, window.innerHeight*0.2 );
+
+            }
+
+            function animate() {
+
+                requestAnimationFrame( animate );
+
+                mesh.rotation.x += 0.005;
+                mesh.rotation.y += 0.01;
+
+                renderer.render( scene, camera );
+
+            }
+            window.three_animate = function() {
+                animate();
+            }
+        </script>
+        <button id="Button" onclick="window.three_animate()">Click me</button>
+
+        <div id="container"></div>
+
+		
+
+	</body>
+</html>

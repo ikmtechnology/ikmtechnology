@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>IKM Technology 3D Render Demo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style		
+		>
+		
+			#container,#button_container,#img_container,#progress_container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }</style>
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+
+	<body>
+
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./three.module.js",
+					"three/addons/": "./"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+
+			import { OBJLoader } from 'three/addons/OBJLoader.js';
+			import { OrbitControls } from 'three/addons/OrbitControls.js';
+			import { MTLLoader } from 'three/addons/MTLLoader.js';
+			let camera, scene, renderer;
+
+			let object;
+
+			init();
+
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
+				camera.position.z = 2.5;
+
+				// scene
+
+				scene = new THREE.Scene();
+
+				const ambientLight = new THREE.AmbientLight( 0xffffff );
+				scene.add( ambientLight );
+
+				const pointLight = new THREE.PointLight( 0xffffff, 15 );
+				camera.add( pointLight );
+				scene.add( camera );
+
+				// manager
+
+				function loadModel() {
+
+
+
+					object.position.y = 0;
+					object.scale.setScalar( 0.3 );
+					scene.add( object );
+
+					//render();
+					
+
+				}
+
+				const manager = new THREE.LoadingManager( loadModel );
+
+				// texture
+
+
+				// model
+
+				function onProgress( xhr ) {
+
+					if ( xhr.lengthComputable ) {
+
+						const percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( 'model ' + percentComplete.toFixed( 2 ) + '% downloaded' );
+						// display the percentage on the HTML page
+						document.getElementById("progress_container").innerHTML = "3D Model " + Math.round(percentComplete) + "% loaded";
+					}
+
+				}
+
+				function onError() {}
+				const mtlLoader = new MTLLoader()
+					.setPath( './' )
+					.load( 'TazaQuintero.mtl', function ( materials ) {
+						materials.preload();
+						const loader = new OBJLoader( manager ).setMaterials( materials ).setPath( './' );
+				//loader.load( 'http://www.ikmtechnology.com/3D/TazaQuintero.obj', function ( obj ) {
+				loader.load( 'TazaQuintero.obj', function ( obj ) {			
+				//loader.load( 'Cup_Made_By_Tyro_Smith.obj', function ( obj ) {			
+//model/obj
+//application/object
+//text/plain
+//application/octet-stream
+//https://stackoverflow.com/questions/16097580/three-js-loading-obj-error-in-azure-but-not-locally
+					object = obj;
+
+				}, onProgress, onError );
+
+					} );
+
+
+
+				//
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
+				var container = document.getElementById("container");
+                container.appendChild(renderer.domElement);
+				//document.body.appendChild( renderer.domElement );
+
+				//
+
+				const controls = new  OrbitControls( camera, renderer.domElement );
+				controls.minDistance = 2;
+				controls.maxDistance = 5;
+				controls.addEventListener( 'change', render );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			} 
+			window.three_render = function() {
+                render();
+            }
+
+		</script>
+		 <div id="img_container">
+
+		<img src="TazaQuintero.png" width="30%" height="30%"></img>
+	</div>
+		 <div id="button_container">
+			<button id="Button" onclick="window.three_render()">3D render</button>
+		</div>
+		<div id="progress_container"></div>
+
+        <div id="container">
+		</div>
+	</body>
+</html>
