@@ -114,30 +114,46 @@
                 catch(err){
                     document.getElementById("log_div").innerHTML += err;
                 }
+                let manager
                 try{
-                var geometry = new THREE.BoxGeometry(1, 1, 1);
-                var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-                document.getElementById("log_div").innerHTML += "creating geometry and material sucessful<br/>";
+                 manager = new THREE.LoadingManager( loadModel );
+                document.getElementById("log_div").innerHTML += "creating manager sucessful<br/>";
 
             }
                 catch(err){
-                    document.getElementById("log_div").innerHTML += err;                    
-                }
-                try{
-                var cube = new THREE.Mesh(geometry, material);
-                document.getElementById("log_div").innerHTML += "creating cube sucessful<br/>";
-
-                }
-                catch(err){
                     document.getElementById("log_div").innerHTML += err;
                 }
-                cube.position.z = 0;
-                try{
-                scene.add(cube);
                 
+                let loader
+                try{
+				loader = new OBJLoader( manager ).setPath( './' );
+                 document.getElementById("log_div").innerHTML += "creating loader sucessful<br/>";
+
             }
                 catch(err){
                     document.getElementById("log_div").innerHTML += err;
+                }
+				loader.load( 'cup.obj', function ( obj ) {			
+					object = obj;
+
+				}, onProgress, onError );
+                document.getElementById("log_div").innerHTML += "obj load sucessful<br/>";
+
+                function onError(err) {
+                    document.getElementById("log_div").innerHTML += err;
+
+                }
+
+				function loadModel() {
+                    object.position.y = 0;
+                    object.scale.setScalar( 0.3 );
+                try{
+                    scene.add( object );
+                    document.getElementById("log_div").innerHTML += "obj add to scene sucessful<br/>";
+                }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
                 }
 
 				// manager
@@ -200,13 +216,26 @@
 				renderer.render( scene, camera );
 
 			} 
+
+            function onProgress( xhr ) {
+
+                if ( xhr.lengthComputable ) {
+
+                const percentComplete = xhr.loaded / xhr.total * 100;
+                console.log( 'model ' + percentComplete.toFixed( 2 ) + '% downloaded' );
+    // display the percentage on the HTML page
+                document.getElementById("progress_container").innerHTML = "3D Model " + Math.round(percentComplete) + "% loaded";
+            }
+
+}
+
 			window.three_render = function() {
                 render();
             }
 
 		</script>
 
-
+        <div id="progress_container"></div>
         <div id="container">
 		</div>
         <div id="log_div"></div>
