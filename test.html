@@ -1,11 +1,13 @@
 <html>
 <header>
 <script>
-document.getElementById("demo").innerHTML = "Hello, world!";
+<!--document.getElementById("demo").innerHTML = "Hello, world!";->
+document.getElementById("log_div").innerHTML += "Hello, world!<br/>";
+document.getElementById("log_div").innerHTML += "Some new content<br/>";
 </script>
 </header>
 <body>
 <p>test.html</p>
-<div id="demo"></div>
+<div id="log_div"></div>
 </body>
 </html>
