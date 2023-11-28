@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>IKM Technology 3D Render Demo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style		
+		>
+		
+			#container,#button_container,#img_container,#progress_container,#progress2_container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }</style>
+		<link type="text/css" rel="stylesheet" href="main.css">
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                if (HTMLScriptElement.supports("module")) {
+                    document.getElementById("log_div").innerHTML += "Browser supports Module!<br/>";
+                    // your code for module scripts
+                } else {
+                    // your code for classic scripts or fallback
+                    document.getElementById("log_div").innerHTML += "Browser does not support Module!<br/>";
+                }            
+            });
+            
+        </script>
+	</head>
+
+	<body>
+
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./three.module.js",
+					"three/addons/": "./"
+				}
+			}
+		</script>
+
+		<script type="module">
+            
+            
+			import * as THREE from 'three';
+
+			import { OBJLoader } from 'three/addons/OBJLoader.js';
+			import { OrbitControls } from 'three/addons/OrbitControls.js';
+			import { MTLLoader } from 'three/addons/MTLLoader.js';
+            console.log(import.meta.url)
+			let camera, scene, renderer;
+
+			let object;
+            let material;
+
+			init();
+
+
+			function init() {
+                try{
+				    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
+                    document.getElementById("log_div").innerHTML += "Camera creation sucessful<br/>";
+                }     catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+                }
+				camera.position.z = 2.5;
+
+				// scene
+                try     
+				{
+                    scene = new THREE.Scene();
+                    document.getElementById("log_div").innerHTML += "Scene creation sucessful<br/>";
+                }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                let ambientLight;
+                try{
+				 ambientLight = new THREE.AmbientLight( 0xffffff );
+                document.getElementById("log_div").innerHTML += "ambientLight creation sucessful<br/>";
+                }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+
+                try{
+				scene.add( ambientLight );
+                document.getElementById("log_div").innerHTML += "scene add ambientLight sucessful<br/>";
+            }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                let pointLight;
+                try{
+				pointLight = new THREE.PointLight( 0xffffff, 15 );
+                document.getElementById("log_div").innerHTML += "create pointlight sucessful<br/>";
+            }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+
+                try{
+				camera.add( pointLight );
+                document.getElementById("log_div").innerHTML += "add pointLight to camera sucessful<br/>";
+
+            }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                try{
+				scene.add( camera );
+                document.getElementById("log_div").innerHTML += "add camera to scene sucessful<br/>";
+
+            }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                let manager
+                try{
+                 manager = new THREE.LoadingManager( loadModel );
+                document.getElementById("log_div").innerHTML += "creating manager sucessful<br/>";
+
+            }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                
+
+
+
+
+                let loader
+
+                const mtlLoader = new MTLLoader()
+					.setPath( './' )
+					.load( 'TazaQuintero.mtl', function ( materials ) {
+                        
+						materials.preload();
+                                try{
+                        loader = new OBJLoader( manager ).setMaterials( materials ).setPath( './' );
+                        document.getElementById("log_div").innerHTML += "creating loader sucessful<br/>";
+
+                    }
+                        catch(err){
+                            document.getElementById("log_div").innerHTML += err;
+                        }				
+                        loader.load( 'cup.obj', function ( obj ) {			
+					object = obj;
+
+				}, onProgress, onError );
+                document.getElementById("log_div").innerHTML += "obj load sucessful<br/>";
+					}, onProgress2, onError2 );
+
+
+              
+
+
+                function onError(err) {
+                    document.getElementById("log_div").innerHTML += err;
+
+                }
+                function onError2(err) {
+                    document.getElementById("log_div").innerHTML += err;
+
+                }
+
+				function loadModel() {
+                    object.position.y = 0;
+                    object.scale.setScalar( 0.3 );
+                try{
+                    scene.add( object );
+                    document.getElementById("log_div").innerHTML += "obj add to scene sucessful<br/>";
+                }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                }
+
+				// manager
+
+
+
+				//
+                try {
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+                document.getElementById("log_div").innerHTML += "creating renderer sucessful<br/>";
+
+            }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
+				var container = document.getElementById("container");
+                container.appendChild(renderer.domElement);
+				//document.body.appendChild( renderer.domElement );
+
+				//
+                let controls;
+                try{
+				    controls = new  OrbitControls( camera, renderer.domElement );
+                    document.getElementById("log_div").innerHTML += "creating controls sucessful<br/>";
+
+                }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+				controls.minDistance = 2;
+				controls.maxDistance = 5;
+				controls.addEventListener( 'change', render );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize );
+                try{
+                render();
+                document.getElementById("log_div").innerHTML += "render  sucessful<br/>";
+                }
+                catch(err){
+                    document.getElementById("log_div").innerHTML += err;
+                }
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			} 
+
+            function onProgress( xhr ) {
+
+                if ( xhr.lengthComputable ) {
+
+                const percentComplete = xhr.loaded / xhr.total * 100;
+                console.log( 'model ' + percentComplete.toFixed( 2 ) + '% downloaded' );
+    // display the percentage on the HTML page
+                document.getElementById("progress_container").innerHTML = "3D Model " + Math.round(percentComplete) + "% loaded";
+            }
+
+}
+
+            function onProgress2( xhr ) {
+
+            if ( xhr.lengthComputable ) {
+
+            const percentComplete = xhr.loaded / xhr.total * 100;
+            console.log( 'model ' + percentComplete.toFixed( 2 ) + '% downloaded' );
+            // display the percentage on the HTML page
+            document.getElementById("progress2_container").innerHTML = "3D Model material " + Math.round(percentComplete) + "% loaded";
+            }
+
+            }
+			window.three_render = function() {
+                render();
+            }
+
+		</script>
+
+        <div id="progress_container"></div>
+        <div id="progress2_container"></div>
+        <div id="container">
+		</div>
+        <div id="log_div"></div>
+	</body>
+</html>
