@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>IKM Technology 3D Render Demo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style		
+		>
+		
+			#container,#button_container,#img_container,#progress_container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            }</style>
+		<link type="text/css" rel="stylesheet" href="main.css">
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+        <script>  
+   			function onWindowResize() {
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
+
+            }
+
+            function render() {
+
+                renderer.render( scene, camera );
+
+            }           
+            document.addEventListener("DOMContentLoaded", function() {
+                if (HTMLScriptElement.supports("module")) {
+                    document.getElementById("log_div").innerHTML += "Browser supports Module!<br/>";
+                    // your code for module scripts
+                } else {
+                    // your code for classic scripts or fallback
+                    document.getElementById("log_div").innerHTML += "Browser does not support Module!<br/>";
+                }
+                camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );                
+				camera.position.z = 2.5;
+                scene = new THREE.Scene();
+                ambientLight = new THREE.AmbientLight( 0xffffff );
+				scene.add( ambientLight );
+				pointLight = new THREE.PointLight( 0xffffff, 15 );
+				camera.add( pointLight );
+				scene.add( camera );
+                var geometry = new THREE.BoxGeometry(1, 1, 1);
+                var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+                var cube = new THREE.Mesh(geometry, material);
+                cube.position.z = 0;
+                scene.add(cube);
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
+				var container = document.getElementById("container");
+                container.appendChild(renderer.domElement);
+                controls = new THREE.OrbitControls( camera, renderer.domElement );
+                controls.minDistance = 2;
+				controls.maxDistance = 5;
+				controls.addEventListener( 'change', render );
+                window.addEventListener( 'resize', onWindowResize );            
+                render();
+            });
+            			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
+
+			}
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			} 
+        </script>
+	</head>
+
+	<body>
+
+
+		
+
+		<script>       
+
+            
+            
+
+		</script>
+
+
+        <div id="container">
+		</div>
+        <div id="log_div"></div>
+	</body>
+</html>
