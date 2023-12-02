@@ -18,6 +18,14 @@
                 }     catch(err) {
                     document.getElementById("log_div").innerHTML += err;
                 }
+                camera.position.z = 2.5;
+                try{
+                scene = new THREE.Scene();
+                document.getElementById("log_div").innerHTML += "scene creation sucessful<br/>";
+
+            }     catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+                }
                 
 
             });
