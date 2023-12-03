@@ -26,7 +26,13 @@
             }     catch(err) {
                     document.getElementById("log_div").innerHTML += err;
                 }
-                
+                try{
+                ambientLight = new THREE.AmbientLight( 0xffffff );
+                document.getElementById("log_div").innerHTML += "ambientLight creation sucessful<br/>";
+
+            }     catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+                }
 
             });
 
