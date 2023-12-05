@@ -35,6 +35,13 @@
                 }
 
             });
+            try{
+                document.getElementById("log_div").innerHTML += "ambientLight added to scene sucessful<br/>";
+            scene.add( ambientLight );
+            }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
 
         </script>
 	</head>
