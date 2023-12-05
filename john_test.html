@@ -56,6 +56,13 @@
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
+            try {
+            scene.add( camera );
+            document.getElementById("log_div").innerHTML += "camera added to scene sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
 
 			
         
