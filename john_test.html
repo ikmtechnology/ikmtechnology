@@ -49,6 +49,14 @@
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
+            try{
+            camera.add( pointLight );
+            document.getElementById("log_div").innerHTML += "pointLight added to camera sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+
 			
         
         });
