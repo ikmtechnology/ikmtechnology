@@ -72,6 +72,14 @@
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
+        try {
+            var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+            document.getElementById("log_div").innerHTML += "material creation sucessful<br/>";
+
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
         
         });
         </script>
