@@ -80,6 +80,17 @@
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
+        try{
+            var cube = new THREE.Mesh(geometry, material);
+            document.getElementById("log_div").innerHTML += "cube creation sucessful<br/>";
+
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+
+
+
         
         });
         </script>
