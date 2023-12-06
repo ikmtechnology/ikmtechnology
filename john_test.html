@@ -63,8 +63,15 @@
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
+            try {
 
-			
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+            document.getElementById("log_div").innerHTML += "geometry creation sucessful<br/>";
+
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
         
         });
         </script>
