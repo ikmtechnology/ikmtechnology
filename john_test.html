@@ -5,6 +5,7 @@
 
 
         <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
         <script>  
       
             document.addEventListener("DOMContentLoaded", function() {
@@ -89,15 +90,44 @@
                     document.getElementById("log_div").innerHTML += err;
             }
 
-
+            //cube.position.z = 0;
+            //scene.add(cube);
+            //renderer = new THREE.WebGLRenderer( { antialias: true } );
+            //renderer.setPixelRatio( window.devicePixelRatio );
+            //renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
+            //var container = document.getElementById("container");
+            //container.appendChild(renderer.domElement);
+            //// controls = new THREE.OrbitControls( camera, renderer.domElement );
+            //// controls.minDistance = 2;
+            //// controls.maxDistance = 5;
+            //// controls.addEventListener( 'change', render );
+            //// window.addEventListener( 'resize', onWindowResize ); 
+            //// controls = new THREE.OrbitControls( camera, renderer.domElement );
+            //// controls.minDistance = 2;
+            //// controls.maxDistance = 5;
+            //// controls.addEventListener( 'change', render );           
+            // render()
 
         
         });
+   /*     function onWindowResize() {
+
+camera.aspect = window.innerWidth / window.innerHeight;
+camera.updateProjectionMatrix();
+
+renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
+
+}*/
+        function render() {
+
+renderer.render( scene, camera );
+
+}           
         </script>
 	</head>
 
 	<body>
         <div id="log_div"></div>
-        <div id="log_div"></div>
+        <div id="container">
 	</body>
 </html>
