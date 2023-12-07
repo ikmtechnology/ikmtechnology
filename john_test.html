@@ -90,8 +90,15 @@
                     document.getElementById("log_div").innerHTML += err;
             }
 
-            //cube.position.z = 0;
-            //scene.add(cube);
+            cube.position.z = 0;
+            try {
+            scene.add(cube);
+            document.getElementById("log_div").innerHTML += "cube added to scene sucessful<br/>";
+
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
             //renderer = new THREE.WebGLRenderer( { antialias: true } );
             //renderer.setPixelRatio( window.devicePixelRatio );
             //renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
