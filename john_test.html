@@ -118,12 +118,12 @@
 
             }
         
-            // var result = container.appendChild(renderer.domElement);
-            // if (result === renderer.domElement) {
-            //     document.getElementById("log_div").innerHTML += "add renderer to container successful<br/>";
-            // } else {
-            //     document.getElementById("log_div").innerHTML += "add renderer to container failed<br/>";
-            // }
+            var result = container.appendChild(renderer.domElement);
+            if (result === renderer.domElement) {
+                 document.getElementById("log_div").innerHTML += "add renderer to container successful<br/>";
+            } else {
+                 document.getElementById("log_div").innerHTML += "add renderer to container failed<br/>";
+            }
             //// controls = new THREE.OrbitControls( camera, renderer.domElement );
             //// controls.minDistance = 2;
             //// controls.maxDistance = 5;
