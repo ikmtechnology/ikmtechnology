@@ -99,7 +99,14 @@
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
-            //renderer = new THREE.WebGLRenderer( { antialias: true } );
+            try{
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            document.getElementById("log_div").innerHTML += "renderer creation sucessful<br/>";
+
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
             //renderer.setPixelRatio( window.devicePixelRatio );
             //renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
             //var container = document.getElementById("container");
