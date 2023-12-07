@@ -109,8 +109,21 @@
             }
             //renderer.setPixelRatio( window.devicePixelRatio );
             //renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
-            //var container = document.getElementById("container");
-            //container.appendChild(renderer.domElement);
+            
+            var container = document.getElementById("container");
+            if (container) {
+                document.getElementById("log_div").innerHTML += "container found<br/>";
+            }else {
+                document.getElementById("log_div").innerHTML += "container not found<br/>";
+
+            }
+        
+            // var result = container.appendChild(renderer.domElement);
+            // if (result === renderer.domElement) {
+            //     document.getElementById("log_div").innerHTML += "add renderer to container successful<br/>";
+            // } else {
+            //     document.getElementById("log_div").innerHTML += "add renderer to container failed<br/>";
+            // }
             //// controls = new THREE.OrbitControls( camera, renderer.domElement );
             //// controls.minDistance = 2;
             //// controls.maxDistance = 5;
@@ -120,7 +133,7 @@
             //// controls.minDistance = 2;
             //// controls.maxDistance = 5;
             //// controls.addEventListener( 'change', render );           
-            // render()
+            //render()
 
         
         });
@@ -133,8 +146,13 @@ renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
 
 }*/
         function render() {
-
+try {
 renderer.render( scene, camera );
+document.getElementById("log_div").innerHTML += "render sucessful<br/>";
+}
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
 
 }           
         </script>
