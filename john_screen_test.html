@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>IKM Technology 3D Render Demo screen test</title>
+
+        <script>  
+      function format(str, args) {
+return str.replace(/{(\d+)}/g, function(match, index) {
+return args[index] || "";
+});
+}
+            document.addEventListener("DOMContentLoaded", function() {
+                //window.innerWidth * pixelRatio, window.innerHeight
+                   document.getElementById("log_div").innerHTML += "Start Testing<br/>";
+                   document.getElementById("log_div").innerHTML += format("window innerWidth = {0}<br/>", [window.innerWidth]);
+                   document.getElementById("log_div").innerHTML += format("window innerHeight = {0}<br/>", [window.innerHeight]);
+
+                    var pixelRatio = window.devicePixelRatio;
+                    if (pixelRatio) {
+                        document.getElementById("log_div").innerHTML += format("pixelRatio= {0}<br/>", [pixelRatio]);
+
+                    }else{
+                        document.getElementById("log_div").innerHTML += "no pixelRatio <br/>";
+
+                    }
+                });
+        </script>
+	</head>
+
+	<body>
+        <div id="log_div"></div>
+        <div id="container">
+	</body>
+</html>
