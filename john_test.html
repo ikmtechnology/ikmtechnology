@@ -101,6 +101,8 @@
             }
             try{
             renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setPixelRatio(window.devicePixelRatio);
+
             document.getElementById("log_div").innerHTML += "renderer creation sucessful<br/>";
 
         }
