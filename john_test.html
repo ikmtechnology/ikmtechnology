@@ -3,7 +3,15 @@
 	<head>
 		<title>IKM Technology 3D Render Demo</title>
 
-
+        <style>
+            #container {
+width: 800px;
+height: 600px;
+background-color: black;
+margin: auto;
+}
+            </style>
+        </style>
         <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
         <script>  
@@ -12,8 +20,14 @@
                 
                     document.getElementById("log_div").innerHTML += "Start Testing<br/>";
                     // your code for module scripts
-                
-                try{
+                    var container = document.getElementById("container");
+            if (container) {
+                document.getElementById("log_div").innerHTML += "container found<br/>";
+            }else {
+                document.getElementById("log_div").innerHTML += "container not found<br/>";
+
+            }
+                        try{
 				    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
                     document.getElementById("log_div").innerHTML += "Camera creation sucessful<br/>";
                 }     catch(err) {
@@ -101,6 +115,8 @@
             }
             try{
             renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize(container.clientWidth, container.clientHeight);
+
             renderer.setPixelRatio(window.devicePixelRatio);
 
             document.getElementById("log_div").innerHTML += "renderer creation sucessful<br/>";
@@ -112,14 +128,7 @@
             //renderer.setPixelRatio( window.devicePixelRatio );
             //renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
             
-            var container = document.getElementById("container");
-            if (container) {
-                document.getElementById("log_div").innerHTML += "container found<br/>";
-            }else {
-                document.getElementById("log_div").innerHTML += "container not found<br/>";
-
-            }
-        
+           
             var result = container.appendChild(renderer.domElement);
             if (result === renderer.domElement) {
                  document.getElementById("log_div").innerHTML += "add renderer to container successful<br/>";
