@@ -15,6 +15,8 @@ margin: auto;
         <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+
         <script>  
       			let object;
 
@@ -34,7 +36,7 @@ margin: auto;
 const aspect = container.clientWidth / container.clientHeight; // aspect ratio
 const near = 0.1; // near clipping plane
 const far = 100; // far clipping plane
-camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clientHeight, 0.1, 100 );
+camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clientHeight, 0.1, 20 );
 				    //camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
                     document.getElementById("log_div").innerHTML += "Camera creation sucessful<br/>";
                 }     catch(err) {
@@ -65,7 +67,7 @@ camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clien
                     document.getElementById("log_div").innerHTML += err;
             }
             try{
-            pointLight = new THREE.PointLight( 0xffffff, 15 );
+            pointLight = new THREE.PointLight( 0xffffff, 1 );
             document.getElementById("log_div").innerHTML += "pointLight creation sucessful<br/>";
         }
             catch(err) {
@@ -104,11 +106,27 @@ camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clien
             }
 
             try {
-                loader.load( 'TazaQuintero.obj', 
-                function ( obj ) {			
+
+                mtlLoader = new THREE.MTLLoader()
+					.setPath( './' )
+					.load( 'TazaQuintero.mtl', function ( materials ) {
+						materials.preload();
+						 loader = new THREE.OBJLoader( manager ).setMaterials( materials ).setPath( './' );
+				//loader.load( 'http://www.ikmtechnology.com/3D/TazaQuintero.obj', function ( obj ) {
+				loader.load( 'TazaQuintero.obj', function ( obj ) {			
+				//loader.load( 'Cup_Made_By_Tyro_Smith.obj', function ( obj ) {			
+//model/obj
+//application/object
+//text/plain
+//application/octet-stream
+//https://stackoverflow.com/questions/16097580/three-js-loading-obj-error-in-azure-but-not-locally
 					object = obj;
 
-				}, onProgress, onError );            document.getElementById("log_div").innerHTML += "loader creation sucessful<br/>";
+				}, onProgress, onError );
+
+					} );
+
+           document.getElementById("log_div").innerHTML += "material obj load sucessful<br/>";
 
         }
             catch(err) {
