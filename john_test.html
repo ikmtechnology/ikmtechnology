@@ -28,7 +28,12 @@ margin: auto;
 
             }
                         try{
-				    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
+                            const fov = 35; // field of view in degrees
+const aspect = container.clientWidth / container.clientHeight; // aspect ratio
+const near = 0.1; // near clipping plane
+const far = 100; // far clipping plane
+camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clientHeight, 0.1, 100 );
+				    //camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
                     document.getElementById("log_div").innerHTML += "Camera creation sucessful<br/>";
                 }     catch(err) {
                     document.getElementById("log_div").innerHTML += err;
