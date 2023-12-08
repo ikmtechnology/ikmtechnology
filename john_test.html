@@ -124,15 +124,16 @@
             } else {
                  document.getElementById("log_div").innerHTML += "add renderer to container failed<br/>";
             }
-            //// controls = new THREE.OrbitControls( camera, renderer.domElement );
-            //// controls.minDistance = 2;
-            //// controls.maxDistance = 5;
-            //// controls.addEventListener( 'change', render );
-            //// window.addEventListener( 'resize', onWindowResize ); 
-            //// controls = new THREE.OrbitControls( camera, renderer.domElement );
-            //// controls.minDistance = 2;
-            //// controls.maxDistance = 5;
-            //// controls.addEventListener( 'change', render );           
+            try {
+                controls = new THREE.OrbitControls( camera, renderer.domElement );
+                document.getElementById("log_div").innerHTML += "controls creation sucessful<br/>";
+            }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+            
+            //controls.addEventListener( 'change', render );
+            //window.addEventListener( 'resize', onWindowResize );             
             render()
 
         
