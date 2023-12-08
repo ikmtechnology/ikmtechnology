@@ -147,8 +147,13 @@ camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clien
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
             }
-            
-            //controls.addEventListener( 'change', render );
+            try {
+            controls.addEventListener( 'change', render );
+            document.getElementById("log_div").innerHTML += "controls add listener sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
             //window.addEventListener( 'resize', onWindowResize );             
             render()
 
@@ -165,7 +170,7 @@ renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
         function render() {
 try {
 renderer.render( scene, camera );
-document.getElementById("log_div").innerHTML += "render sucessful<br/>";
+//document.getElementById("log_div").innerHTML += "render sucessful<br/>";
 }
             catch(err) {
                     document.getElementById("log_div").innerHTML += err;
