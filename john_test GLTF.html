@@ -98,6 +98,7 @@ camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clien
             try{
             renderer = new THREE.WebGLRenderer( { antialias: true } );
             renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setClearColor("white", 1); // sky blue color with full opacity
 
             renderer.setPixelRatio(window.devicePixelRatio);
 
