@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>IKM Technology 3D Render Demo</title>
+
+        <style>
+            #container {
+width: 800px;
+height: 600px;
+background-color: black;
+margin: auto;
+}
+            </style>
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/OBJLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/MTLLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+
+        <script>  
+      			let object;
+
+            document.addEventListener("DOMContentLoaded", function() {
+                
+                    document.getElementById("log_div").innerHTML += "Start Testing<br/>";
+                    // your code for module scripts
+                    var container = document.getElementById("container");
+            if (container) {
+                document.getElementById("log_div").innerHTML += "container found<br/>";
+            }else {
+                document.getElementById("log_div").innerHTML += "container not found<br/>";
+
+            }
+                        try{
+                            const fov = 35; // field of view in degrees
+const aspect = container.clientWidth / container.clientHeight; // aspect ratio
+const near = 0.1; // near clipping plane
+const far = 100; // far clipping plane
+camera = new THREE.PerspectiveCamera( 45,container.clientWidth / container.clientHeight, 0.1, 20 );
+				    //camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 20 );
+                    document.getElementById("log_div").innerHTML += "Camera creation sucessful<br/>";
+                }     catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                camera.position.z = 2.5;
+                try{
+                scene = new THREE.Scene();
+                document.getElementById("log_div").innerHTML += "scene creation sucessful<br/>";
+
+            }     catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+                }
+                try{
+                ambientLight = new THREE.AmbientLight( 0xffffff );
+                document.getElementById("log_div").innerHTML += "ambientLight creation sucessful<br/>";
+
+            }     catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+                }
+
+          
+            try{
+            scene.add( ambientLight );
+            document.getElementById("log_div").innerHTML += "ambientLight added to scene sucessful<br/>";
+            }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+            try{
+            pointLight = new THREE.PointLight( 0xffffff, 5 );
+            document.getElementById("log_div").innerHTML += "pointLight creation sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+            try{
+            camera.add( pointLight );
+            document.getElementById("log_div").innerHTML += "pointLight added to camera sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+            try {
+            scene.add( camera );
+            document.getElementById("log_div").innerHTML += "camera added to scene sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+
+
+
+  
+
+
+
+            try{
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize(container.clientWidth, container.clientHeight);
+
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            document.getElementById("log_div").innerHTML += "renderer creation sucessful<br/>";
+
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+
+            try {
+
+         loader = new THREE.GLTFLoader().setPath( './' );
+        loader.load( 'DamagedHelmet.gltf', async function ( gltf ) {
+
+            const model = gltf.scene;
+
+            // wait until the model can be added to the scene without blocking due to shader compilation
+
+            //await renderer.compileAsync( model, camera, scene );
+
+            scene.add( model );
+
+            render();
+
+        } );
+
+document.getElementById("log_div").innerHTML += "GLTF model load sucessful<br/>";
+
+}
+catch(err) {
+    document.getElementById("log_div").innerHTML += err;
+}
+
+
+            //renderer.setPixelRatio( window.devicePixelRatio );
+            //renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5);
+            
+           
+            var result = container.appendChild(renderer.domElement);
+            if (result === renderer.domElement) {
+                 document.getElementById("log_div").innerHTML += "add renderer to container successful<br/>";
+            } else {
+                 document.getElementById("log_div").innerHTML += "add renderer to container failed<br/>";
+            }
+            try {
+                controls = new THREE.OrbitControls( camera, renderer.domElement );
+                document.getElementById("log_div").innerHTML += "controls creation sucessful<br/>";
+            }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+            try {
+            controls.addEventListener( 'change', render );
+            document.getElementById("log_div").innerHTML += "controls add listener sucessful<br/>";
+        }
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+            //window.addEventListener( 'resize', onWindowResize );             
+            render()
+
+        
+        });
+   /*     function onWindowResize() {
+
+camera.aspect = window.innerWidth / window.innerHeight;
+camera.updateProjectionMatrix();
+
+renderer.setSize( window.innerWidth*0.5, window.innerHeight*0.5 );
+
+}*/
+
+function onProgress( xhr ) {
+
+if ( xhr.lengthComputable ) {
+
+    const percentComplete = xhr.loaded / xhr.total * 100;
+    console.log( 'model ' + percentComplete.toFixed( 2 ) + '% downloaded' );
+    // display the percentage on the HTML page
+    document.getElementById("progress_container").innerHTML = "3D Model " + Math.round(percentComplete) + "% loaded";
+}
+
+}
+
+        function render() {
+try {
+renderer.render( scene, camera );
+//document.getElementById("log_div").innerHTML += "render sucessful<br/>";
+}
+            catch(err) {
+                    document.getElementById("log_div").innerHTML += err;
+            }
+
+}     
+function loadModel() {
+
+
+
+object.position.y = 0;
+object.scale.setScalar( 0.3 );
+scene.add( object );
+
+//render();
+
+}
+function onError() {}
+
+        </script>
+	</head>
+
+	<body>
+        <div id="log_div"></div>
+        <div id="progress_container"></div>
+        <div id="container">
+	</body>
+</html>
